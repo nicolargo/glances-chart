@@ -1,0 +1,44 @@
+# File: glances-chart/templates/deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: glances
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: glances
+  template:
+    metadata:
+      labels:
+        app: glances
+    spec:
+      containers:
+        - name: glances
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          command: ["glances"]
+          args: ["-C", "/etc/glances/glances.conf", "-w", "-p", "{{ .Values.webPort }}"]
+          ports:
+            - containerPort: {{ .Values.webPort }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /etc/glances
+            - name: docker-socket
+              mountPath: /var/run/docker.sock
+              readOnly: true
+            - name: podman-socket
+              mountPath: /run/user/1000/podman/podman.sock
+              readOnly: true
+          securityContext:
+            privileged: true
+          hostPID: true
+      volumes:
+        - name: config-volume
+          configMap:
+            name: glances-config
+        - name: docker-socket
+          hostPath:
+            path: /var/run/docker.sock
+        - name: podman-socket
+          hostPath:
+            path: /run/user/1000/podman/podman.sock

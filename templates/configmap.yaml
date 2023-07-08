@@ -1,0 +1,8 @@
+# File: glances-chart/templates/configmap.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: glances-config
+data:
+  glances.conf: |-
+{{ .Files.Get "glances.conf" | indent 4 }}

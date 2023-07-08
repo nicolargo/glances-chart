@@ -1,0 +1,5 @@
+apiVersion: v2
+name: glances-chart
+version: 0.1.0
+description: A Helm chart for deploying Glances as a web service.
+icon: https://github.com/nicolargo/glances/raw/develop/glances/outputs/static/images/glances.png

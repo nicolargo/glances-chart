@@ -1,0 +1,8 @@
+# File: glances-chart/values.yaml
+
+# helm install glances glances-chart --set image.repository=myrepository/glances --set image.tag=mytag
+image:
+  repository: nicolargo/glances
+  tag: latest
+
+webServerPort: 61208
